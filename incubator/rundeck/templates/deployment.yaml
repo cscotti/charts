@@ -105,7 +105,7 @@ spec:
             - name: rundeck
               containerPort: 4440
           livenessProbe:
-            httpGet:  
+            httpGet:
               path: /
               port: 4440
               scheme: HTTP
@@ -140,10 +140,10 @@ spec:
         {{- else if .Values.persistence.claim.create }}
           persistentVolumeClaim:
             claimName: {{ include "rundeck.fullname" . }}
-        {{- end }}  
+        {{- end }}
         {{- else }}
           emptyDir: {}
-        {{- end }}  
+        {{- end }}
         {{- if .Values.rundeck.sshSecrets }}
         - name: sshkeys
           secret:
@@ -153,6 +153,11 @@ spec:
         - name: aws-credentials
           secret:
             secretName: {{ .Values.rundeck.awsCredentialsSecret}}
+        {{- end }}
+        {{- if .Values.rundeck.awsConfigSecret }}
+        - name: aws-config
+          secret:
+            secretName: {{ .Values.rundeck.awsConfigSecret}}
         {{- end }}
         {{- if .Values.rundeck.kubeConfigSecret }}
         - name: kube-config
